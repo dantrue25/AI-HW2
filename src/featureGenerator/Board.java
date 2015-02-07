@@ -545,10 +545,15 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
+					
+					if(max1 == N)
+						return 1;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2 == N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -580,10 +585,14 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
+					if(max1 == N) 
+						return 1;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2 == N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -596,7 +605,7 @@ public class Board {
 					max2=0;
 				}
 			}
-		} 
+		}
 
 			return player1Count - player2Count;
 	}
@@ -616,10 +625,14 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
+					if(max1==N)
+						return 1;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2==N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow)
@@ -658,10 +671,14 @@ public class Board {
 				if(board[height-1-y][x]==PLAYER1){
 					max1++;
 					max2=0;
+					if(max1 == N)
+						return 1;
 				}
 				else if(board[height-1-y][x]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2==N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -705,10 +722,14 @@ public class Board {
 				if(board[height-1-y][x]==PLAYER1){
 					max1++;
 					max2=0;
+					if(max1==N)
+						return 1;
 				}
 				else if(board[height-1-y][x]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2==N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow) 
