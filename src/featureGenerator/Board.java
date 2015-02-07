@@ -97,11 +97,11 @@ public class Board {
 	 *  Returns a higher value if more chips in the center.
 	 *  Used as experiment, but decided not to use in heuristic calculation.
 	 */
-	public double checkMiddle() {
+	public int checkMiddle() {
 		//int sign = -1;
 		int sum=0;
-		double weightCenter = 1.0;
-		double weightCenterOffset = 0.5;
+		int weightCenter = 2;
+		int weightCenterOffset = 1;
 		int player1Count = 0;
 		int player2Count = 0;
 		
