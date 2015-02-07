@@ -56,8 +56,11 @@ public class Board {
 	 * Calculate the values for each feature (attribute)
 	 */
 	public String calculateFeatureValues() {
-		//TODO: actually create this
-		return "9,9,9,9,9";
+		int featCheckMiddle = checkMiddle();
+		int featTwoInARow = checkNInARow(2);
+		int featThreeInARow = checkNInARow(3);
+		int featFourInARow = checkNInARow(4);
+		return featCheckMiddle + "," + featTwoInARow + "," + featThreeInARow + "," + featFourInARow + ",9";
 	}
 	
 	//Returns a new board with the same state as the given board
