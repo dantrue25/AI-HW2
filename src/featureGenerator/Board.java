@@ -98,7 +98,7 @@ public class Board {
 	 *  Used as experiment, but decided not to use in heuristic calculation.
 	 */
 	public double checkMiddle() {
-		int sign = -1;
+		//int sign = -1;
 		int sum=0;
 		double weightCenter = 1.0;
 		double weightCenterOffset = 0.5;
@@ -538,22 +538,10 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
-					if(max1 == N)
-						return 100;
-//					if(max1 == N && Player.ourPlayerNum == 1)
-//						return 100;
-//					else if(max1 ==N && Player.ourPlayerNum != 1)
-//						return -100;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
-					if(max2 == N)
-						return -100;
-//					if(max2 == N && Player.ourPlayerNum == 2)
-//						return 100;
-//					else if(max2==N && Player.ourPlayerNum != 2)
-//						return -100;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -567,10 +555,6 @@ public class Board {
 				}
 			}
 		} 
-//		if(Player.ourPlayerNum == 1) {
-//			return player1Count - player2Count;
-//		}
-//		else
 			return player1Count - player2Count;
 	}
 
@@ -589,18 +573,10 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
-					if(max1 == N && Player.ourPlayerNum == 1)
-						return 100;
-					else if(max1 ==N && Player.ourPlayerNum != 1)
-						return -100;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
-					if(max2 == N && Player.ourPlayerNum == 2)
-						return 100;
-					else if(max2==N && Player.ourPlayerNum != 2)
-						return -100;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -614,11 +590,8 @@ public class Board {
 				}
 			}
 		} 
-		if(Player.ourPlayerNum == 1) {
+
 			return player1Count - player2Count;
-		}
-		else
-			return player2Count - player1Count;
 	}
 
 	//The heuristic function uses this to determine if this is a good board state
@@ -636,18 +609,10 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
-					if(max1==N && Player.ourPlayerNum == 1)
-						return 100;
-					else if(max1==N && Player.ourPlayerNum !=1)
-						return -100;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
-					if(max2==N && Player.ourPlayerNum == 2)
-						return 100;
-					else if(max2==N && Player.ourPlayerNum != 2)
-						return -100;
 				}
 				else{
 					if(max1 >= numInARow)
@@ -659,10 +624,7 @@ public class Board {
 				}
 			}
 		} 
-		if(Player.ourPlayerNum == 1)
 			return player1Count - player2Count;
-		else
-			return player2Count - player1Count;
 	}
 
 	//Used by the heuristic function to determine how many diags in a row we have
@@ -689,18 +651,10 @@ public class Board {
 				if(board[height-1-y][x]==PLAYER1){
 					max1++;
 					max2=0;
-					if(max1 == N && Player.ourPlayerNum == 1)
-						return 100;
-					else if(max1 == N && Player.ourPlayerNum != 1)
-						return -100;
 				}
 				else if(board[height-1-y][x]==PLAYER2){
 					max1=0;
 					max2++;
-					if(max2 == N && Player.ourPlayerNum == 2)
-						return 100;
-					else if(max2 == N && Player.ourPlayerNum != 2)
-						return -100;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -717,10 +671,7 @@ public class Board {
 			}	  
 		}
 
-		if(Player.ourPlayerNum == 1)
 			return player1Count - player2Count;
-		else
-			return player2Count - player1Count;
 	}
 
 	//Check the board diagonally to see if there is a winner
@@ -747,20 +698,10 @@ public class Board {
 				if(board[height-1-y][x]==PLAYER1){
 					max1++;
 					max2=0;
-					if(max1 == N && Player.ourPlayerNum == 1)
-						return 100;
-					else if(max1 == N && Player.ourPlayerNum != 1)
-						return -100;
-
 				}
 				else if(board[height-1-y][x]==PLAYER2){
 					max1=0;
 					max2++;
-					if(max2 == N && Player.ourPlayerNum == 2)
-						return 100;
-					else if(max2 == N && Player.ourPlayerNum != 2)
-						return -100;
-
 				}
 				else{
 					if(max1 >= numInARow) 
@@ -776,9 +717,6 @@ public class Board {
 
 		}	 //end for y=x-k
 
-		if(Player.ourPlayerNum == 1) 
 			return player1Count - player2Count;
-		else
-			return player2Count - player1Count;
 	}
 }
