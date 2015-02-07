@@ -95,6 +95,13 @@ public class Board {
 		return hval;
 	}
 
+	public int checkValue(int numInARow) {
+		int Count = 0;
+		
+		Count+= checkV(numInARow)+ checkH(numInARow) + checkHReverse(numInARow) + checkD1(numInARow) + checkD2(numInARow);
+		return Count;
+	}
+	
 	/*
 	 *  Gives a heuristic based on the desity of the chips.
 	 *  Returns a higher value if more chips in the center.
@@ -541,10 +548,15 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
+					
+					if(max1 == N)
+						return 1;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2 == N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -576,10 +588,14 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
+					if(max1 == N) 
+						return 1;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2 == N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -592,7 +608,7 @@ public class Board {
 					max2=0;
 				}
 			}
-		} 
+		}
 
 			return player1Count - player2Count;
 	}
@@ -612,10 +628,14 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
+					if(max1==N)
+						return 1;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2==N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow)
@@ -654,10 +674,14 @@ public class Board {
 				if(board[height-1-y][x]==PLAYER1){
 					max1++;
 					max2=0;
+					if(max1 == N)
+						return 1;
 				}
 				else if(board[height-1-y][x]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2==N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -701,10 +725,14 @@ public class Board {
 				if(board[height-1-y][x]==PLAYER1){
 					max1++;
 					max2=0;
+					if(max1==N)
+						return 1;
 				}
 				else if(board[height-1-y][x]==PLAYER2){
 					max1=0;
 					max2++;
+					if(max2==N)
+						return -1;
 				}
 				else{
 					if(max1 >= numInARow) 
