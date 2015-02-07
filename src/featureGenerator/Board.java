@@ -538,18 +538,22 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
-					if(max1 == N && Player.ourPlayerNum == 1)
+					if(max1 == N)
 						return 100;
-					else if(max1 ==N && Player.ourPlayerNum != 1)
-						return -100;
+//					if(max1 == N && Player.ourPlayerNum == 1)
+//						return 100;
+//					else if(max1 ==N && Player.ourPlayerNum != 1)
+//						return -100;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
-					if(max2 == N && Player.ourPlayerNum == 2)
-						return 100;
-					else if(max2==N && Player.ourPlayerNum != 2)
+					if(max2 == N)
 						return -100;
+//					if(max2 == N && Player.ourPlayerNum == 2)
+//						return 100;
+//					else if(max2==N && Player.ourPlayerNum != 2)
+//						return -100;
 				}
 				else{
 					if(max1 >= numInARow) {
@@ -563,11 +567,11 @@ public class Board {
 				}
 			}
 		} 
-		if(Player.ourPlayerNum == 1) {
+//		if(Player.ourPlayerNum == 1) {
+//			return player1Count - player2Count;
+//		}
+//		else
 			return player1Count - player2Count;
-		}
-		else
-			return player2Count - player1Count;
 	}
 
 	//Used for the get heuristic function to evaluate a given board
