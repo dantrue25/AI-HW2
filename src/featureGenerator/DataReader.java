@@ -19,8 +19,8 @@ public class DataReader {
 	private static String inFilePath;  // Training data (without Features)
 	private static String outFilePath; // Training data (with Features)
 	
-	private ArrayList<String> boardStrList; // Board data from file (Strings)
-	private ArrayList<Board> boardList;     // Board data from file (Board objects)
+	private ArrayList<String> boardStrList;         // Board data from file (Strings)
+	private ArrayList<Board> boardList;             // Board data from file (Board objects)
 	
 	/*
 	 * Parses the training data file into a list of Strings.
@@ -48,14 +48,18 @@ public class DataReader {
 	}
 	
 	/*
-	 * Parses the list of Strings into a list of Board objects
+	 * Parses the list of Strings into a list of Board objects.
+	 * Also, creates another list of boardStr's without the winner.
 	 */
 	public void processBoards() {
 		boardList = new ArrayList<Board>();
+		
 		for(String bStr: boardStrList) {
 			boardList.add(Board.createBoardFromString(bStr));
 		}
 	}
+	
+	
 	
 	/*
 	 * For each of the Boards in boardList, calculate their feature values.
@@ -66,9 +70,18 @@ public class DataReader {
 		try {
 			PrintWriter writer = new PrintWriter(outFilePath);
 			
+			writer.println("f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,"
+					+ "f11,f12,f13,f14,f15,f16,f17,f18,f19,f20,"
+					+ "f21,f22,f23,f24,f25,f26,f27,f28,f29,f30,"
+					+ "f31,f32,f33,f34,f35,f36,f37,f38,f39,f40,"
+					+ "f41,f42,feature1,feature2,feature3,"
+					+ "feature4,feature5,Winner");
 			for(int i = 0; i < boardList.size(); i++) {
+				String currentBStr = boardStrList.get(i);
 				String featureVals = boardList.get(i).calculateFeatureValues();
-				writer.println(boardStrList.get(i) + "," + featureVals);
+				
+				String bStrWithoutWinner = currentBStr.substring(0, currentBStr.length() - 1);
+				writer.println(bStrWithoutWinner + featureVals + "," + currentBStr.charAt(currentBStr.length() - 1));
 			}
 			
 			writer.close();
