@@ -92,6 +92,13 @@ public class Board {
 		return hval;
 	}
 
+	public int checkValue(int numInARow) {
+		int Count = 0;
+		
+		Count+= checkV(numInARow)+ checkH(numInARow) + checkHReverse(numInARow) + checkD1(numInARow) + checkD2(numInARow);
+		return Count;
+	}
+	
 	/*
 	 *  Gives a heuristic based on the desity of the chips.
 	 *  Returns a higher value if more chips in the center.
