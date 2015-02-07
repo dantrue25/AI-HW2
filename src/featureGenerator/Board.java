@@ -25,6 +25,7 @@ public class Board {
 	int TIE = 0;
 	boolean player1Pop = false;
 	boolean player2Pop = false;
+	
 
 	Board(int height, int width, int N)
 	{
@@ -99,14 +100,43 @@ public class Board {
 	public double checkMiddle() {
 		int sign = -1;
 		int sum=0;
+		double weightCenter = 1.0;
+		double weightCenterOffset = 0.5;
+		int player1Count = 0;
+		int player2Count = 0;
+		
+//		for(int i = 0; i < this.width; i++) {
+//
+//			if(i >= (int)(width/2) -1 && i <= (int)(width/2) + 1) {
+//				sign = 1;
+//			}
+//			sum += sign * this.numOfDiscsInColumn[i];
+//		}
+		
+//		for(int i = 3; i <= 5; i++) {
+//			for(int j = 0; j < this.height; j++) {
+//				if(this.)
+//			}
+//		}
 
-		for(int i = 0; i < this.width; i++) {
-
-			if(i >= (int)(width/2) -1 && i <= (int)(width/2) + 1) {
-				sign = 1;
+		for(int i = 0; i < this.height; i++) {
+			if(this.board[3][i] == PLAYER1 || this.board[5][i] == PLAYER1) {
+				player1Count+= weightCenterOffset;
 			}
-			sum += sign * this.numOfDiscsInColumn[i];
+			else if(this.board[3][i] == PLAYER2 || this.board[3][i] == PLAYER2) {
+				player2Count+= (-1) * weightCenterOffset;
+			}
+			
+			
+			if(this.board[4][i] == PLAYER1) {
+				player1Count+= weightCenter;
+			}
+			else if(this.board[4][i] == PLAYER2) {
+				player2Count+= (-1) *weightCenter;
+			}
 		}
+			
+		sum = player1Count + player2Count;
 
 		return sum;
 	}
