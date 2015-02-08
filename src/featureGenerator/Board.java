@@ -95,7 +95,7 @@ public class Board {
 		return hval;
 	}
 
-	public int checkValue(int numInARow) {
+	public int checkNInARow(int numInARow) {
 		int Count = 0;
 		
 		Count+= checkV(numInARow)+ checkH(numInARow) + checkHReverse(numInARow) + checkD1(numInARow) + checkD2(numInARow);
