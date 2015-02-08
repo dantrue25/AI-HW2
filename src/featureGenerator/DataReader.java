@@ -24,7 +24,7 @@ public class DataReader {
 	private ArrayList<String> boardStrList;         // Board data from file (Strings)
 	private ArrayList<Board> boardList;             // Board data from file (Board objects)
 	
-	public static boolean debugMode = true;
+	public static boolean debugMode = false;
 
 	public DataReader() {
 		if(debugMode) {
@@ -134,10 +134,13 @@ public class DataReader {
 	public static void main(String[] args) {
 
 		// Exit if there is an incorrect number of arguments
-		if(args.length != 2) {
+		if(args.length != 2 && args.length != 3) {
 			System.out.println("Error: Wrong number of parameters.");
 			System.exit(1);
 		}
+		
+		if(args.length == 3 && args[2].equals("d"))
+			debugMode = true;
 
 		inFilePath = args[0];
 		outFilePath = args[1];
