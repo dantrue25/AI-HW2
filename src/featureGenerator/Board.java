@@ -58,8 +58,7 @@ public class Board {
 		int featCheckMiddle = checkMiddle();
 		int featTwoInARow = checkNInARow(2);
 		int featThreeInARow = checkNInARow(3);
-		int featFourInARow = checkNInARow(4);
-		return featCheckMiddle + "," + featTwoInARow + "," + featThreeInARow + "," + featFourInARow + ",9";
+		return featCheckMiddle + "," + featTwoInARow + "," + featThreeInARow + ",99,99";
 	}
 	
 	//Returns a new board with the same state as the given board

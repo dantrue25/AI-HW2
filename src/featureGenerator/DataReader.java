@@ -74,8 +74,8 @@ public class DataReader {
 					+ "f11,f12,f13,f14,f15,f16,f17,f18,f19,f20,"
 					+ "f21,f22,f23,f24,f25,f26,f27,f28,f29,f30,"
 					+ "f31,f32,f33,f34,f35,f36,f37,f38,f39,f40,"
-					+ "f41,f42,feature1,feature2,feature3,"
-					+ "feature4,feature5,Winner");
+					+ "f41,f42,Middle,Connect2,Connect3,"
+					+ "empty4,empty5,Winner");
 			for(int i = 0; i < boardList.size(); i++) {
 				String currentBStr = boardStrList.get(i);
 				String featureVals = boardList.get(i).calculateFeatureValues();
