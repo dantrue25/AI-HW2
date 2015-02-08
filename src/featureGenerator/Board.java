@@ -8,7 +8,6 @@ package featureGenerator;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 //import java.util.Random;
 
 public class Board {
@@ -149,68 +148,6 @@ public class Board {
 		sum = player1Count + player2Count;
 
 		return sum;
-	}
-
-
-	//Given a player, use the current board state to create a list of possible moves
-	public ArrayList<Move> getMoves(int player)
-	{
-		ArrayList<Move> possibleMoves = new ArrayList<Move>();
-		if(isConnectN() != NOCONNECTION){ 
-			return possibleMoves;
-		}
-
-		for(int i = 0; i < this.width; i++)
-		{
-			Move dropMove = new Move(i, 1);
-			Move popMove = new Move(i, 0);
-
-
-			if(this.canDropADiscFromTop(dropMove.column, player))
-			{
-
-				possibleMoves.add(dropMove);
-			}
-
-			if(this.canRemoveADiscFromBottom(popMove.column, player))
-			{
-				if( player == 1 && !player1Pop)
-				{
-					possibleMoves.add(popMove);
-					player1Pop = true;
-				}
-				else if(player == 2 && !player2Pop)
-				{
-					possibleMoves.add(popMove);
-					player2Pop = true;
-				}
-			}
-		}
-		return possibleMoves;
-	}
-
-
-	/* 
-	 * Updates the currentState board based on the given move
-	 * Dropping is 1
-	 * Popping out is 0
-	 * Need current player
-	 * This function assumes that the move is valid
-	 */
-	public void makeMove(Move move, int playerNum)
-	{
-		if(move.moveType == 1)
-		{
-			this.dropADiscFromTop(move.column, playerNum);
-		}
-		else if(move.moveType == 0)
-		{
-			this.removeADiscFromBottom(move.column);
-			if(playerNum == 1)
-				player1Pop = true;
-			else 
-				player2Pop = true;
-		}
 	}
 
 	//Prints the board to file
