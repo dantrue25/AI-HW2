@@ -55,7 +55,7 @@ public class Board {
 		int feat2 = checkNInARow(2);
 		int feat3 = checkNInARow(3);
 		int feat4 = checkHHole(3) + checkHReverseHole(3);
-		int feat5 = feat1 + feat2 + 2*feat3 + 2*feat4 + 10*checkHHole(4) + 10*checkHReverseHole(3);
+		int feat5 = 2*feat1 + feat2 + feat3 + feat4 + checkHHole(4) + checkHReverseHole(4);
 		
 		String featuresStr = feat1 + 
 				"," + feat2 + "," + feat3 + 
