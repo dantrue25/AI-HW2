@@ -409,8 +409,6 @@ public class Board {
 		int player1Count = 0;
 		int player2Count = 0;
 		int lastPiece = 0;
-		int zeroFlag1 = 0;
-		int zeroFlag2 = 0;
 		
 		for(int i=0;i<this.height;i++){
 			max1=0;
@@ -420,46 +418,33 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
-					lastPiece = 1;
-					zeroFlag2 = 0;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
-					lastPiece = 2;
-					zeroFlag1 = 0;
 				}
 				else{
-					if(lastPiece == 0) {
-						zeroFlag1 = 0;
-						zeroFlag2 = 0;
-					}
-					if(lastPiece == 1 && zeroFlag1 == 0) {
+
+					if(lastPiece == 1) {
 						max1++;
-						zeroFlag1 = 1;
 					}
-					else if(lastPiece == 2 && zeroFlag2 == 0) {
+					else if(lastPiece == 2) {
 						max2++;
-						zeroFlag2 = 1;
 					}
 					
 					if(max1 >= numInARow) {
 						player1Count++;
 						max1=0;
 						max2=0;
-						zeroFlag1 = 0;
 					}
 					if(max2 >= numInARow) {
 						player2Count++;
 						max1=0;
 						max2=0;
-						zeroFlag2 = 0;
 					}
 					lastPiece = 0;
 				}
 			}
-			zeroFlag1 = 0;
-			zeroFlag2 = 0;
 		}
 
 		if(DataReader.debugMode) {
