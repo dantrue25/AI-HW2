@@ -497,13 +497,15 @@ public class Board {
 					
 					if(max1 >= numInARow) {
 						player1Count++;
+						max1=0;
+						max2=0;
 					}
 					if(max2 >= numInARow) {
 						player2Count++;
+						max1=0;
+						max2=0;
 					}
-					max1=0;
-					max2=0;
-					lastPiece=0;
+					lastPiece = 0;
 				}
 			}
 		}
