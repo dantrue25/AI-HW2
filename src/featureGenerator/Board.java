@@ -402,84 +402,46 @@ public class Board {
 	 * *************************************************************************************************************
 	 */
 	//Used for the get heuristic function to evaluate a given board
+	//Used for the get heuristic function to evaluate a given board
 	public int checkHHole(int numInARow){
 		int max1=0;
 		int max2=0;
 		int player1Count = 0;
 		int player2Count = 0;
 		int lastPiece = 0;
+		int zeroFlag1 = 0;
+		int zeroFlag2 = 0;
 		
 		for(int i=0;i<this.height;i++){
 			max1=0;
 			max2=0;
 			lastPiece = 0;
 			for(int j=0;j<this.width;j++){
-//				switch(board[i][j]) {
-//				case 1:
-//					max1++;
-//					max2=0;
-//					lastPiece = 1;
-//					break;
-//				case 2:
-//					max1=0;
-//					max2++;
-//					lastPiece = 2;
-//					break;
-//				case 0:
-//					if(seenZero) {
-//						max1=0;
-//						max2=0;
-//						seenZero = false;
-//						lastPiece = 0;
-//						break;
-//					}
-//
-//					if(lastPiece == 1) {
-//						max1++;
-//						seenZero = true;
-//					}
-//					else if(lastPiece == 2) {
-//						max2++;
-//						seenZero = true;
-//					}
-//					
-//					if(max1 >= numInARow) {
-//						player1Count++;
-//						max1=0;
-//						max2=0;
-//						seenZero = false;
-//						lastPiece = 0;
-//						break;
-//					}
-//					if(max2 >= numInARow) {
-//						player2Count++;
-//						max1=0;
-//						max2=0;
-//						seenZero = false;
-//						lastPiece = 0;
-//						break;
-//					}
-//
-//					lastPiece = 0;
-//					break;
-//				default:
-//					break;
-//				}
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
 					lastPiece = 1;
+					zeroFlag2 = 0;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
 					lastPiece = 2;
+					zeroFlag1 = 0;
 				}
 				else{
-					if(lastPiece == 1)
+					if(lastPiece == 0) {
+						zeroFlag1 = 0;
+						zeroFlag2 = 0;
+					}
+					if(lastPiece == 1 && zeroFlag1 == 0) {
 						max1++;
-					else if(lastPiece == 2)
+						zeroFlag1 = 1;
+					}
+					else if(lastPiece == 2 && zeroFlag2 == 0) {
 						max2++;
+						zeroFlag2 = 1;
+					}
 					
 					if(max1 >= numInARow) {
 						player1Count++;
@@ -494,6 +456,8 @@ public class Board {
 					lastPiece = 0;
 				}
 			}
+			zeroFlag1 = 0;
+			zeroFlag2 = 0;
 		}
 
 		if(DataReader.debugMode) {
