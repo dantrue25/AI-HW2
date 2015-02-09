@@ -54,9 +54,9 @@ public class Board {
 		int feat1 = checkMiddle();
 		int feat2 = checkNInARow(2);
 		int feat3 = checkNInARow(3);
-		int feat4 = feat2 + 2*feat3;
-		int feat5 = 99;
-
+		int feat4 = checkHHole(3);
+		int feat5 = feat1 + feat2 + 2*feat3 + 2*feat4 + 10*checkHHole(4);
+		
 		String featuresStr = feat1 + 
 				"," + feat2 + "," + feat3 + 
 				"," + feat4 + "," + feat5;
@@ -64,10 +64,11 @@ public class Board {
 		if(DataReader.debugMode) {
 			try {
 				FileWriter fw = new FileWriter("debugFile.txt", true);
-				fw.write("\nMiddle:  " + feat1 + "\n");
-				fw.write("2inARow: " + feat2 + "\n");
-				fw.write("3inARow: " + feat3 + "\n");
-				fw.write("Total:   " + feat4 + "\n");
+				fw.write("\nMiddle:     " + feat1 + "\n");
+				fw.write(  "2inARow:    " + feat2 + "\n");
+				fw.write(  "3inARow:    " + feat3 + "\n");
+				fw.write(  "HHole:      " + feat4 + "\n");
+				fw.write(  "Middle+2+3: " + feat5 + "\n");
 				fw.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -82,7 +83,7 @@ public class Board {
 	 */
 	public int checkNInARow(int numInARow) {
 
-		int count = checkVReverse(numInARow) + 
+		int count = checkV(numInARow) + 
 				checkH(numInARow) + checkHReverse(numInARow) + 
 				checkD1(numInARow) + checkD2(numInARow);
 
@@ -90,7 +91,7 @@ public class Board {
 	}
 
 	/*
-	 *  Gives a heuristic based on the desity of the chips.
+	 *  Gives a heuristic based on the density of the chips.
 	 *  Returns a higher value if more chips in the center.
 	 *  Used as experiment, but decided not to use in heuristic calculation.
 	 */
@@ -236,53 +237,7 @@ public class Board {
 		return player1Count - player2Count;
 	}
 
-	//The heuristic function uses this to determine if this is a good board state
 	public int checkV(int numInARow){
-		//check each column, vertically
-		int max1=0;
-		int max2=0;
-		int player1Count = 0;
-		int player2Count = 0;
-
-		for(int j=0;j<this.width;j++){
-			max1=0;
-			max2=0;
-			for(int i=0;i<this.height;i++){
-				if(board[i][j]==PLAYER1){
-					max1++;
-					max2=0;
-				}
-				else if(board[i][j]==PLAYER2){
-					max1=0;
-					max2++;
-				}
-				else{
-					if(max1 >= numInARow)
-						player1Count++;
-					if(max2 >= numInARow)
-						player2Count++;
-					max1=0;
-					max2=0;
-				}
-			}
-		}
-
-		if(DataReader.debugMode) {	
-			try {
-				FileWriter fw = new FileWriter("debugFile.txt", true);
-				fw.write(numInARow + "     V: P1 = " + player1Count + "\n");
-				fw.write(numInARow + "        P2 = " + player2Count + "\n");
-				fw.write(numInARow + "        Total = " + (player1Count - player2Count) + "\n");
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return player1Count - player2Count;
-	}
-
-	public int checkVReverse(int numInARow){
 		//check each column, vertically
 		int max1=0;
 		int max2=0;
@@ -315,7 +270,7 @@ public class Board {
 		if(DataReader.debugMode) {	
 			try {
 				FileWriter fw = new FileWriter("debugFile.txt", true);
-				fw.write(numInARow + "    Vr: P1 = " + player1Count + "\n");
+				fw.write(numInARow + "     V: P1 = " + player1Count + "\n");
 				fw.write(numInARow + "        P2 = " + player2Count + "\n");
 				fw.write(numInARow + "        Total = " + (player1Count - player2Count) + "\n");
 				fw.close();
@@ -388,6 +343,328 @@ public class Board {
 
 	//Check the board diagonally to see if there is a winner
 	public int checkD2(int numInARow){
+		//check diagonally y=x-k
+		int max1=0;
+		int max2=0;
+		int player1Count = 0;
+		int player2Count = 0;
+		int upper_bound=width-1-(numInARow-1);
+		int  lower_bound=-(height-1-(numInARow-1));
+		// System.out.println("lower: "+lower_bound+", upper_bound: "+upper_bound);
+		for(int k=lower_bound;k<=upper_bound;k++){			
+			max1=0;
+			max2=0;
+			int x,y;
+			if(k>=0) 
+				x=k;
+			else
+				x=0;
+			y=x-k;
+			while(x>=0 && x<width && y<height){
+				// System.out.println("k: "+k+", x: "+x+", y: "+y);
+				if(board[height-1-y][x]==PLAYER1){
+					max1++;
+					max2=0;
+				}
+				else if(board[height-1-y][x]==PLAYER2){
+					max1=0;
+					max2++;
+				}
+				else{
+					if(max1 >= numInARow) 
+						player1Count++;
+					if(max2 >= numInARow)
+						player2Count++;
+					max1=0;
+					max2=0;
+				}
+				x++;
+				y++;
+			}	 
+		}
+
+		if(DataReader.debugMode) {
+			try {
+				FileWriter fw = new FileWriter("debugFile.txt", true);
+				fw.write(numInARow + "    D2: P1 = " + player1Count + "\n");
+				fw.write(numInARow + "        P2 = " + player2Count + "\n");
+				fw.write(numInARow + "        Total = " + (player1Count - player2Count) + "\n");
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return player1Count - player2Count;
+	}
+	
+	/*
+	 * *************************************************************************************************************
+	 */
+	//Used for the get heuristic function to evaluate a given board
+	public int checkHHole(int numInARow){
+		int max1=0;
+		int max2=0;
+		int player1Count = 0;
+		int player2Count = 0;
+		int lastPiece = 0;
+		
+		for(int i=0;i<this.height;i++){
+			max1=0;
+			max2=0;
+			lastPiece = 0;
+			for(int j=0;j<this.width;j++){
+//				switch(board[i][j]) {
+//				case 1:
+//					max1++;
+//					max2=0;
+//					lastPiece = 1;
+//					break;
+//				case 2:
+//					max1=0;
+//					max2++;
+//					lastPiece = 2;
+//					break;
+//				case 0:
+//					if(seenZero) {
+//						max1=0;
+//						max2=0;
+//						seenZero = false;
+//						lastPiece = 0;
+//						break;
+//					}
+//
+//					if(lastPiece == 1) {
+//						max1++;
+//						seenZero = true;
+//					}
+//					else if(lastPiece == 2) {
+//						max2++;
+//						seenZero = true;
+//					}
+//					
+//					if(max1 >= numInARow) {
+//						player1Count++;
+//						max1=0;
+//						max2=0;
+//						seenZero = false;
+//						lastPiece = 0;
+//						break;
+//					}
+//					if(max2 >= numInARow) {
+//						player2Count++;
+//						max1=0;
+//						max2=0;
+//						seenZero = false;
+//						lastPiece = 0;
+//						break;
+//					}
+//
+//					lastPiece = 0;
+//					break;
+//				default:
+//					break;
+//				}
+				if(board[i][j]==PLAYER1){
+					max1++;
+					max2=0;
+					lastPiece = 1;
+				}
+				else if(board[i][j]==PLAYER2){
+					max1=0;
+					max2++;
+					lastPiece = 2;
+				}
+				else{
+					if(lastPiece == 1)
+						max1++;
+					else if(lastPiece == 2)
+						max2++;
+					
+					if(max1 >= numInARow) {
+						player1Count++;
+						max1=0;
+						max2=0;
+					}
+					if(max2 >= numInARow) {
+						player2Count++;
+						max1=0;
+						max2=0;
+					}
+					lastPiece = 0;
+				}
+			}
+		}
+
+		if(DataReader.debugMode) {
+			try {
+				FileWriter fw = new FileWriter("debugFile.txt", true);
+				fw.write(numInARow + " HHole: P1 = " + player1Count + "\n");
+				fw.write(numInARow + "        P2 = " + player2Count + "\n");
+				fw.write(numInARow + "        Total = " + (player1Count - player2Count) + "\n");
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return player1Count - player2Count;
+	}
+
+	//Used for the get heuristic function to evaluate a given board
+	//Checks num in a row from right to left
+	public int checkHReverseHole(int numInARow){
+		int max1=0;
+		int max2=0;
+		int player1Count = 0;
+		int player2Count = 0;
+		//check each row, horizontally
+		for(int i=0;i<this.height;i++){
+			max1=0;
+			max2=0;
+			for(int j=this.width-1; j >= 0;j--){
+				if(board[i][j]==PLAYER1){
+					max1++;
+					max2=0;
+				}
+				else if(board[i][j]==PLAYER2){
+					max1=0;
+					max2++;
+				}
+				else{
+					if(max1 >= numInARow) {
+						player1Count++;
+					}
+					if(max2 >= numInARow) {
+						player2Count++;
+					}
+					max1=0;
+					max2=0;
+				}
+			}
+		}
+
+		if(DataReader.debugMode) {
+			try {
+				FileWriter fw = new FileWriter("debugFile.txt", true);
+				fw.write(numInARow + "    Hr: P1 = " + player1Count + "\n");
+				fw.write(numInARow + "        P2 = " + player2Count + "\n");
+				fw.write(numInARow + "        Total = " + (player1Count - player2Count) + "\n");
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return player1Count - player2Count;
+	}
+
+	public int checkVHole(int numInARow){
+		//check each column, vertically
+		int max1=0;
+		int max2=0;
+		int player1Count = 0;
+		int player2Count = 0;
+
+		for(int j=0;j<this.width;j++){
+			max1=0;
+			max2=0;
+			for(int i=this.height - 1;i>=0;i--){
+				if(board[i][j]==PLAYER1){
+					max1++;
+					max2=0;
+				}
+				else if(board[i][j]==PLAYER2){
+					max1=0;
+					max2++;
+				}
+				else{
+					if(max1 >= numInARow)
+						player1Count++;
+					if(max2 >= numInARow)
+						player2Count++;
+					max1=0;
+					max2=0;
+				}
+			}
+		}
+
+		if(DataReader.debugMode) {	
+			try {
+				FileWriter fw = new FileWriter("debugFile.txt", true);
+				fw.write(numInARow + "     V: P1 = " + player1Count + "\n");
+				fw.write(numInARow + "        P2 = " + player2Count + "\n");
+				fw.write(numInARow + "        Total = " + (player1Count - player2Count) + "\n");
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return player1Count - player2Count;
+	}
+
+	//Used by the heuristic function to determine how many diags in a row we have
+	public int checkD1Hole(int numInARow){
+		//check diagonally y=-x+k
+		int max1=0;
+		int max2=0;
+		int player1Count=0;
+		int player2Count=0;
+		int upper_bound=height-1+width-1-(numInARow-1);
+
+		for(int k=numInARow-1;k<=upper_bound;k++){			
+			max1=0;
+			max2=0;
+			int x,y;
+			if(k<width) 
+				x=k;
+			else
+				x=width-1;
+			y=-x+k;
+
+			while(x>=0  && y<height){
+				// System.out.println("k: "+k+", x: "+x+", y: "+y);
+				if(board[height-1-y][x]==PLAYER1){
+					max1++;
+					max2=0;
+				}
+				else if(board[height-1-y][x]==PLAYER2){
+					max1=0;
+					max2++;
+				}
+				else{
+					if(max1 >= numInARow) {
+						player1Count++;
+					}
+					if(max2 >= numInARow) {
+						player2Count++;
+					}
+					max1=0;
+					max2=0;
+				}
+				x--;
+				y++;
+			}	  
+		}
+
+		if(DataReader.debugMode) {
+			try {
+				FileWriter fw = new FileWriter("debugFile.txt", true);
+				fw.write(numInARow + "    D1: P1 = " + player1Count + "\n");
+				fw.write(numInARow + "        P2 = " + player2Count + "\n");
+				fw.write(numInARow + "        Total = " + (player1Count - player2Count) + "\n");
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return player1Count - player2Count;
+	}
+
+	//Check the board diagonally to see if there is a winner
+	public int checkD2Hole(int numInARow){
 		//check diagonally y=x-k
 		int max1=0;
 		int max2=0;

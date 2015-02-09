@@ -109,7 +109,7 @@ public class DataReader {
 					+ "f21,f22,f23,f24,f25,f26,f27,f28,f29,f30,"
 					+ "f31,f32,f33,f34,f35,f36,f37,f38,f39,f40,"
 					+ "f41,f42,Middle,Connect2,Connect3,"
-					+ "Total,empty5,Winner");
+					+ "HHole,M+C2+C3+HH,Winner");
 
 			for(int i = 0; i < boardList.size(); i++) {
 				String currentBStr = boardStrList.get(i);
