@@ -54,8 +54,8 @@ public class Board {
 		int feat1 = checkMiddle();
 		int feat2 = checkNInARow(2);
 		int feat3 = checkNInARow(3);
-		int feat4 = checkHHole(3);
-		int feat5 = feat1 + feat2 + 2*feat3 + 2*feat4 + 10*checkHHole(4);
+		int feat4 = checkHHole(3) + checkHReverseHole(3);
+		int feat5 = feat1 + feat2 + 2*feat3 + 2*feat4 + 10*checkHHole(4) + 10*checkHReverseHole(3);
 		
 		String featuresStr = feat1 + 
 				"," + feat2 + "," + feat3 + 
@@ -418,10 +418,12 @@ public class Board {
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
+					lastPiece = 1;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
+					lastPiece = 2;
 				}
 				else{
 
@@ -469,20 +471,30 @@ public class Board {
 		int max2=0;
 		int player1Count = 0;
 		int player2Count = 0;
+		int lastPiece = 0;
+		
 		//check each row, horizontally
 		for(int i=0;i<this.height;i++){
 			max1=0;
 			max2=0;
+			lastPiece=0;
 			for(int j=this.width-1; j >= 0;j--){
 				if(board[i][j]==PLAYER1){
 					max1++;
 					max2=0;
+					lastPiece = 1;
 				}
 				else if(board[i][j]==PLAYER2){
 					max1=0;
 					max2++;
+					lastPiece = 2;
 				}
 				else{
+					if(lastPiece == 1)
+						max1++;
+					if(lastPiece == 2)
+						max2++;
+					
 					if(max1 >= numInARow) {
 						player1Count++;
 					}
@@ -491,6 +503,7 @@ public class Board {
 					}
 					max1=0;
 					max2=0;
+					lastPiece=0;
 				}
 			}
 		}
