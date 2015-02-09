@@ -55,7 +55,7 @@ public class Board {
 		int feat2 = checkNInARow(2);
 		int feat3 = checkNInARow(3);
 		int feat4 = checkHHole(3) + checkHReverseHole(3);
-		int feat5 = 2*feat1 + feat2 + feat3 + feat4 + checkHHole(4) + checkHReverseHole(4);
+		int feat5 = feat2 + feat3 + feat4 + 2*checkHHole(4) + 2*checkHReverseHole(4);
 		
 		String featuresStr = feat1 + 
 				"," + feat2 + "," + feat3 + 
@@ -111,7 +111,19 @@ public class Board {
 				}
 			}
 		}
-		return (player1Count + player2Count);
+		
+		int diff = player1Count + player2Count;
+		int winner = 0;
+		
+		// Discretize values.
+		if(diff == 0)      // P1 and P2 have same amount of 
+			winner = 0;
+		if(diff > 0)
+			winner = 1;
+		if(diff < 0)
+			winner = -1;
+		
+		return winner;
 	}
 
 	/*
