@@ -447,11 +447,13 @@ public class Board {
 						player1Count++;
 						max1=0;
 						max2=0;
+						zeroFlag1 = 0;
 					}
 					if(max2 >= numInARow) {
 						player2Count++;
 						max1=0;
 						max2=0;
+						zeroFlag2 = 0;
 					}
 					lastPiece = 0;
 				}
